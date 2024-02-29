@@ -1,0 +1,20 @@
+vocabulary V {
+    type Width
+    type Pattern
+    orders: (Width) -> Int
+    nbr: (Width * Pattern) -> Int
+
+    cut: (Pattern) -> Int
+
+    nroll: () -> Int
+}
+
+structure S : V {
+    Width := {1..4}.
+    Pattern :=
+}
+
+theory T : V {
+    !w in Width : sum(lambda p in Pattern: nbr(w,p)*cut(p)) >= orders(w).
+    nroll() = sum(lambda p in Pattern: cut(p)).
+}

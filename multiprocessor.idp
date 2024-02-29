@@ -1,0 +1,35 @@
+vocabulary V {
+    type Task
+    type Processor
+    type Time
+    length: (Task) -> Int
+    assigned: (Task) -> Processor
+    deadline: () -> Int
+}
+
+structure S : V {
+    Task := {1..9}.
+    Processor := {1..4}.
+    Time := {1..10}.
+    length := {
+        1-> 2,
+        2-> 5,
+        3-> 9,
+        4-> 4,
+        5-> 2,
+        6-> 1,
+        7-> 6,
+        8-> 6,
+        9-> 5
+    }.
+}
+
+theory T : V {
+    deadline() = 11.
+    !t in Task : #{p in Processor: assigned(t) = p} = 1.
+    !p in Processor: sum(lambda t in Task: if assigned(t) = p then length(t) else 0) < deadline().
+}
+
+procedure main() {
+    pretty_print(model_expand(T,S))
+}
